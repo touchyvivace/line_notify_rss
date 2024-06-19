@@ -1,0 +1,13 @@
+name: Schedule RSS to LINE Notify
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Every hour
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Notify Endpoint
+        run: |
+          curl -X GET https://line-notify-rss.vercel.app/notify
