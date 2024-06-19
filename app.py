@@ -9,7 +9,7 @@ import datetime
 app = Flask(__name__)
 
 # LINE Notify token
-LINE_NOTIFY_TOKEN = "1W0x2vGNY0cka2uYlauEfl74Mu7t0bLIw9qGEVU6Vpd"
+LINE_NOTIFY_TOKEN = os.getenv("LINE_NOTIFY_TOKEN")
 LINE_NOTIFY_API = "https://notify-api.line.me/api/notify"
 
 # RSS feed URL
