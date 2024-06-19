@@ -28,6 +28,10 @@ def set_last_processed_time(time):
     os.environ["LAST_PROCESSED_TIME"] = time.isoformat()
 
 
+def reset_last_processed_time():
+    os.environ["LAST_PROCESSED_TIME"] = ""
+
+
 async def send_line_notify(session, message, token):
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -64,6 +68,12 @@ def notify():
     asyncio.set_event_loop(loop)
     loop.run_until_complete(fetch_and_notify())
     return "Notifications sent!", 200
+
+
+@app.get("/reset")
+def reset():
+    reset_last_processed_time()
+    return {"message": "LAST_PROCESSED_TIME has been reset"}
 
 
 if __name__ == "__main__":
