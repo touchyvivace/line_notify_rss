@@ -12,9 +12,5 @@
       "dest": "app.py"
     }
   ],
-   "crons": [{
-    "path": "/notify",
-    "schedule": "0 * * * *" 
-  }]
 }
 
