@@ -5,7 +5,10 @@ import aiohttp
 import asyncio
 import os
 import datetime
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 app = Flask(__name__)
 
 # LINE Notify token
@@ -25,7 +28,7 @@ def get_last_processed_time():
 
 # conment
 def set_last_processed_time(time):
-    os.environ["LAST_PROCESSED_TIME"] = time.isoformat()
+    os.environ["LAST_PROCESSED_TIME"] = "TEST"
 
 
 def reset_last_processed_time():
