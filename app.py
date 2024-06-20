@@ -28,7 +28,7 @@ def get_last_processed_time():
 
 # conment
 def set_last_processed_time(time):
-    os.environ["LAST_PROCESSED_TIME"] = "TEST"
+    os.environ["LAST_PROCESSED_TIME"] = time.isoformat()
 
 
 def reset_last_processed_time():
