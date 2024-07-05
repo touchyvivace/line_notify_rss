@@ -2,7 +2,7 @@ name: Schedule RSS to LINE Notify
 
 on:
   schedule:
-    - cron: '0 9-18 * * *' # Every hour
+    - cron: '0 2-12 * * *'
 
 jobs:
   notify:
