@@ -18,22 +18,23 @@ LINE_NOTIFY_API = "https://notify-api.line.me/api/notify"
 # RSS feed URL
 RSS_URL = "https://webboard-nsoc.ncsa.or.th/category/12.rss"
 
+TIME_FILE = "last_processed_time.txt"
 
 def get_last_processed_time():
-    last_processed_time = os.getenv("LAST_PROCESSED_TIME")
-    if last_processed_time:
-        return datetime.datetime.fromisoformat(last_processed_time)
+    if os.path.exists(TIME_FILE):
+        with open(TIME_FILE, "r") as file:
+            last_processed_time = file.read().strip()
+            if last_processed_time:
+                return datetime.datetime.fromisoformat(last_processed_time)
     return None
 
-
-# conment
 def set_last_processed_time(time):
-    os.environ["LAST_PROCESSED_TIME"] = time.isoformat()
-
+    with open(TIME_FILE, "w") as file:
+        file.write(time.isoformat())
 
 def reset_last_processed_time():
-    os.environ["LAST_PROCESSED_TIME"] = ""
-
+    if os.path.exists(TIME_FILE):
+        os.remove(TIME_FILE)
 
 async def send_line_notify(session, message, token):
     headers = {
@@ -43,7 +44,6 @@ async def send_line_notify(session, message, token):
     data = {"message": message}
     async with session.post(LINE_NOTIFY_API, headers=headers, data=data) as response:
         return response.status
-
 
 async def fetch_and_notify():
     last_processed_time = get_last_processed_time()
@@ -64,7 +64,6 @@ async def fetch_and_notify():
                 datetime.datetime(*feed.entries[0].published_parsed[:6])
             )
 
-
 @app.route("/notify", methods=["GET"])
 def notify():
     loop = asyncio.new_event_loop()
@@ -72,12 +71,10 @@ def notify():
     loop.run_until_complete(fetch_and_notify())
     return "Notifications sent!", 200
 
-
-@app.get("/reset")
+@app.route("/reset", methods=["GET"])
 def reset():
     reset_last_processed_time()
     return {"message": "LAST_PROCESSED_TIME has been reset"}
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
