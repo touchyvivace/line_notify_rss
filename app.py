@@ -18,7 +18,7 @@ LINE_NOTIFY_API = "https://notify-api.line.me/api/notify"
 # RSS feed URL
 RSS_URL = "https://webboard-nsoc.ncsa.or.th/category/12.rss"
 
-TIME_FILE = "last_processed_time.txt"
+TIME_FILE = "/tmp/last_processed_time.txt"
 
 def get_last_processed_time():
     if os.path.exists(TIME_FILE):
